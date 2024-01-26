@@ -12,7 +12,7 @@ using namespace std;
 
 struct BYTE_STR
 {
-    char BIT_0 : 1;
+    char BIT_0 : 1; 
     char BIT_1 : 1;
     char BIT_2 : 1;
     char BIT_3 : 1;
@@ -33,7 +33,7 @@ struct BYTE_STR
         BIT_7 = 0;
     };
     
-    char bitToByte()
+    char getByte() const
     {
         char out = 0;
         out |= (BIT_0 & 0x01) << 0;
@@ -46,15 +46,23 @@ struct BYTE_STR
         out |= (BIT_7 & 0x01) << 7;
         return out;
     };
+    
+    void setByte(const char &byteToSet)
+    {
+        BIT_0 = ((byteToSet >> 0) & 0x01);
+        BIT_1 = ((byteToSet >> 1) & 0x01);
+        BIT_2 = ((byteToSet >> 2) & 0x01);
+        BIT_3 = ((byteToSet >> 3) & 0x01);
+        BIT_4 = ((byteToSet >> 4) & 0x01);
+        BIT_5 = ((byteToSet >> 5) & 0x01);
+        BIT_6 = ((byteToSet >> 6) & 0x01);
+        BIT_7 = ((byteToSet >> 7) & 0x01);
+    };
 };
 
-int main()
+
+void printByte(const BYTE_STR & bStr)
 {
-    BYTE_STR bStr;
-    
-    bStr.BIT_1 = 1;
-    
-    printf("SIZE_BYTE[%ld]\n", sizeof(bStr));
     printf("BITs:\n");
     printf("[0][1][2][3][4][5][6][7]\n");
     printf("[%d]", (bool)(bStr.BIT_0));
@@ -65,8 +73,26 @@ int main()
     printf("[%d]", (bool)(bStr.BIT_5));
     printf("[%d]", (bool)(bStr.BIT_6));
     printf("[%d]", (bool)(bStr.BIT_7));
-    printf("\nBYTE=[%x]\n", bStr.bitToByte() & 0xff);
+    printf("\nBYTE=[%x]\n", bStr.getByte() & 0xff);
+};
+
+int main()
+{
+    BYTE_STR bStr;
+    
+    bStr.BIT_1 = 1;
+    
+    printf("SIZE_BYTE[%ld]\n", sizeof(bStr));
+    
+    printByte(bStr);
+    
+    bStr.setByte(0xab);
+    
+    printByte(bStr);
+    
+    
     
 
     return 0;
 }
+
